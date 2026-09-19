@@ -52,7 +52,9 @@ The refresh focuses on high-value fundamentals:
 - meaningful image alternative text
 - unique accessible names for repeated gallery links
 - explicit new-tab announcements for photo links
-- responsive image presentation
+- responsive image presentation with WebP `srcset` candidates
+- explicit `sizes` hints so browsers can choose an appropriate image before layout
+- intrinsic image dimensions to reduce layout shift
 - lazy loading for non-critical images
 - `prefers-reduced-motion` support
 - project-relative asset and navigation URLs that work on GitHub Pages
@@ -94,10 +96,16 @@ Run it locally with:
     ├── styles.css
     ├── img.jpg
     ├── img1.jpg
+    ├── img1-600.webp
+    ├── img1-1200.webp
     ├── img1-1.jpg
     ├── img2.jpg
+    ├── img2-600.webp
+    ├── img2-1200.webp
     ├── img2-2.jpg
     ├── img3.jpg
+    ├── img3-600.webp
+    ├── img3-1200.webp
     ├── img3-3.jpg
     ├── logo.png
     ├── site.webmanifest
@@ -125,9 +133,11 @@ That is the main architectural decision of the project: keep the implementation 
 
 ## Image strategy
 
-The gallery separates lightweight page images from larger versions opened on demand, so full-size photos are not loaded as part of the initial page view.
+The gallery separates lightweight fallbacks from larger photos opened on demand, so full-size originals are not loaded as part of the initial page view.
 
-The largest family photo was resized from 4032×3024 to 2048×1536 and recompressed as a high-quality progressive JPEG, reducing it from about 7.24 MB to about 483 KB. The optimized file is written without EXIF metadata, including GPS data. This improves download cost and avoids exposing unnecessary location metadata while preserving the existing static-site stack.
+For the three family-gallery images, the site provides 600 px and 1200 px WebP candidates generated from the larger source photos. Each `<picture>` element keeps the existing JPEG as a fallback while modern browsers use `srcset` and `sizes` to choose a sharper asset for the actual viewport and device pixel ratio. This gives high-DPI mobile screens substantially better image detail without forcing every device to download the largest file.
+
+The 1200 px WebP variants are roughly 80–116 KB each, and the 600 px variants are roughly 30–44 KB. The largest full-size family photo was also resized from 4032×3024 to 2048×1536 and recompressed as a high-quality progressive JPEG, reducing it from about 7.24 MB to about 483 KB. Generated and optimized files are written without EXIF metadata, including GPS data.
 
 ## Author
 
