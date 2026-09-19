@@ -26,17 +26,22 @@ The project intentionally does **not** use React, Vue, a bundler, or a custom Ja
 
 The public-facing experience is intentionally family-first rather than technology-first.
 
+The visual direction is a **small digital family album**, designed to feel warm, gentle, nostalgic, and emotionally familiar rather than like a conventional portfolio landing page.
+
 The site uses:
 
-- warm neutral colors and soft rose accents
-- an editorial serif/sans-serif typography pairing using system fonts
-- organic photo shapes and restrained decorative elements
-- a compact family-story section
-- a responsive photo collage built from the original project assets
+- warm ivory, cream, peach, and dusty-rose tones
+- soft paper-like surfaces instead of hard white cards
+- editorial serif typography for a personal, timeless feeling
+- subtle photo-album and instant-photo framing
+- restrained paper-tape details around photographs
+- small rotations that make the gallery feel collected rather than mechanically aligned
+- affectionate microcopy focused on home, togetherness, and memory
+- soft shadows and low-contrast borders
 - subtle motion only where it improves affordance
 - no external font dependency and no unnecessary visual library
 
-Technical proof belongs in the repository documentation; the website itself is designed to feel like a small digital family album.
+Technical proof belongs in the repository documentation; the website itself is designed to feel like something a family would enjoy revisiting years later.
 
 ## Engineering improvements
 
