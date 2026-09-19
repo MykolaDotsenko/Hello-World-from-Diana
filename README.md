@@ -125,9 +125,9 @@ That is the main architectural decision of the project: keep the implementation 
 
 ## Image strategy
 
-The original family photographs are preserved as project assets. The gallery already separates smaller page images from larger versions opened on demand, so the full-size originals are not loaded as part of the gallery view.
+The gallery separates lightweight page images from larger versions opened on demand, so full-size photos are not loaded as part of the initial page view.
 
-Further binary transcoding to WebP/AVIF would be a deployment optimization rather than an architectural change and can be added independently without changing the runtime stack.
+The largest family photo was resized from 4032×3024 to 2048×1536 and recompressed as a high-quality progressive JPEG, reducing it from about 7.24 MB to about 483 KB. The optimized file is written without EXIF metadata, including GPS data. This improves download cost and avoids exposing unnecessary location metadata while preserving the existing static-site stack.
 
 ## Author
 
