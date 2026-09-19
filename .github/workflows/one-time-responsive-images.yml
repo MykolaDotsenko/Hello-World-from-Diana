@@ -1,0 +1,80 @@
+name: One-time responsive image generation
+
+on:
+  push:
+    branches:
+      - responsive-images
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: "!contains(github.event.head_commit.message, '[skip responsive images]')"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: responsive-images
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+
+      - name: Generate responsive WebP variants
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          variants = {
+              "img1": "img1-1.jpg",
+              "img2": "img2-2.jpg",
+              "img3": "img3-3.jpg",
+          }
+
+          for stem, source_name in variants.items():
+              source_path = Path(source_name)
+              with Image.open(source_path) as source:
+                  image = source.convert("RGB")
+                  for width in (600, 1200):
+                      if width > image.width:
+                          raise ValueError(
+                              f"{source_name} is only {image.width}px wide; "
+                              f"refusing to upscale to {width}px"
+                          )
+                      height = round(image.height * width / image.width)
+                      resized = image.resize(
+                          (width, height),
+                          Image.Resampling.LANCZOS,
+                      )
+                      output = Path(f"{stem}-{width}.webp")
+                      resized.save(
+                          output,
+                          "WEBP",
+                          quality=82,
+                          method=6,
+                          exif=b"",
+                      )
+                      print(
+                          f"{output}: {width}x{height}, "
+                          f"{output.stat().st_size:,} bytes"
+                      )
+          PY
+
+      - name: Commit responsive variants
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add img1-600.webp img1-1200.webp img2-600.webp img2-1200.webp img3-600.webp img3-1200.webp
+          if git diff --cached --quiet; then
+            echo "Responsive assets are already up to date."
+            exit 0
+          fi
+          git commit -m "Generate responsive WebP variants [skip responsive images]"
+          git push origin HEAD:responsive-images
