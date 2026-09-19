@@ -46,19 +46,45 @@ The refresh focuses on high-value fundamentals:
 - keyboard-accessible skip navigation
 - visible focus states
 - meaningful image alternative text
+- unique accessible names for repeated gallery links
+- explicit new-tab announcements for photo links
 - responsive image presentation
 - lazy loading for non-critical images
 - `prefers-reduced-motion` support
 - project-relative asset and navigation URLs that work on GitHub Pages
 - Bootstrap CDN Subresource Integrity (SRI)
 - shared styling in a dedicated stylesheet instead of duplicated inline CSS
-- clearer metadata, page titles, and descriptions
+- page descriptions plus Open Graph and Twitter summary metadata
 - safer new-tab image links with `rel="noopener noreferrer"`
 - an intentionally small dependency surface
+
+## Quality checks
+
+The repository includes a small zero-dependency validation script and a GitHub Actions workflow.
+
+The checker verifies:
+
+- expected local files and linked assets exist
+- every page has one `<main>` and one `<h1>`
+- HTML IDs are unique within each page
+- images include `alt` attributes
+- links opened in a new tab use both `noopener` and `noreferrer`
+- local fragment links point to existing IDs
+- each page includes viewport and description metadata
+- the web manifest is valid JSON and references existing icon files
+
+Run it locally with:
+
+    python scripts/check_site.py
 
 ## Project structure
 
     .
+    ├── .github/
+    │   └── workflows/
+    │       └── quality.yml
+    ├── scripts/
+    │   └── check_site.py
     ├── index.html
     ├── places.html
     ├── styles.css
@@ -92,6 +118,12 @@ This is intentionally a static two-page website.
 Bootstrap provides proven responsive layout primitives and the collapsible navigation. Custom CSS owns the visual language and responsive presentation. There is no framework, client-side state layer, build pipeline, or application abstraction because none of those solve a real requirement here.
 
 That is the main architectural decision of the project: keep the implementation proportional to the product.
+
+## Image strategy
+
+The original family photographs are preserved as project assets. The gallery already separates smaller page images from larger versions opened on demand, so the full-size originals are not loaded as part of the gallery view.
+
+Further binary transcoding to WebP/AVIF would be a deployment optimization rather than an architectural change and can be added independently without changing the runtime stack.
 
 ## Author
 
