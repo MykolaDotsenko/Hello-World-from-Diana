@@ -75,6 +75,17 @@ def local_target(page: Path, value: str) -> tuple[Path, str | None] | None:
     return target.resolve(), fragment
 
 
+def srcset_candidates(value: str) -> list[str]:
+    candidates: list[str] = []
+    for item in value.split(","):
+        candidate = item.strip()
+        if not candidate:
+            continue
+        url = candidate.split()[0]
+        candidates.append(url)
+    return candidates
+
+
 def check_page(page_name: str) -> list[str]:
     errors: list[str] = []
     page = ROOT / page_name
@@ -105,6 +116,24 @@ def check_page(page_name: str) -> list[str]:
             errors.append(
                 f"{page_name}: image {image.get('src', '<unknown>')} is missing alt"
             )
+
+    for tag, attributes in parser.tags:
+        srcset = attributes.get("srcset")
+        if not srcset:
+            continue
+
+        if not attributes.get("sizes"):
+            errors.append(f"{page_name}: <{tag}> with srcset is missing sizes")
+
+        for candidate in srcset_candidates(srcset):
+            target_data = local_target(page, candidate)
+            if target_data is None:
+                continue
+            target, _ = target_data
+            if not target.exists():
+                errors.append(
+                    f"{page_name}: srcset reference does not exist: {candidate}"
+                )
 
     for tag, attributes in parser.links:
         value = (
