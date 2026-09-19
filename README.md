@@ -1,6 +1,6 @@
 # Hello, World from Diana
 
-A small, responsive family microsite built as a deliberately lightweight static web project.
+A small, warm family microsite built as a deliberately lightweight static web project.
 
 The original 2023 learning project has been refreshed to preserve its personal character while applying modern frontend fundamentals without changing the core stack.
 
@@ -22,6 +22,22 @@ The original 2023 learning project has been refreshed to preserve its personal c
 
 The project intentionally does **not** use React, Vue, a bundler, or a custom JavaScript application layer. For a two-page static site, those tools would add complexity without improving the product.
 
+## Product and design approach
+
+The public-facing experience is intentionally family-first rather than technology-first.
+
+The site uses:
+
+- warm neutral colors and soft rose accents
+- an editorial serif/sans-serif typography pairing using system fonts
+- organic photo shapes and restrained decorative elements
+- a compact family-story section
+- a responsive photo collage built from the original project assets
+- subtle motion only where it improves affordance
+- no external font dependency and no unnecessary visual library
+
+Technical proof belongs in the repository documentation; the website itself is designed to feel like a small digital family album.
+
 ## Engineering improvements
 
 The refresh focuses on high-value fundamentals:
@@ -31,13 +47,13 @@ The refresh focuses on high-value fundamentals:
 - visible focus states
 - meaningful image alternative text
 - responsive image presentation
-- lazy loading for gallery images
+- lazy loading for non-critical images
 - `prefers-reduced-motion` support
 - project-relative asset and navigation URLs that work on GitHub Pages
 - Bootstrap CDN Subresource Integrity (SRI)
 - shared styling in a dedicated stylesheet instead of duplicated inline CSS
 - clearer metadata, page titles, and descriptions
-- safer external image links with `rel="noopener noreferrer"`
+- safer new-tab image links with `rel="noopener noreferrer"`
 - an intentionally small dependency surface
 
 ## Project structure
@@ -69,11 +85,13 @@ For example:
 
 Then visit `http://localhost:8000`.
 
-## Design approach
+## Architecture
 
-The visual system uses a warm neutral palette, restrained motion, generous spacing, soft surfaces, and responsive Bootstrap layout primitives. Custom CSS handles presentation while Bootstrap is used where it provides clear value, primarily layout and responsive navigation.
+This is intentionally a static two-page website.
 
-The goal is not to make a tiny website look like an enterprise application. The goal is to make a tiny website feel finished, accessible, maintainable, and intentional.
+Bootstrap provides proven responsive layout primitives and the collapsible navigation. Custom CSS owns the visual language and responsive presentation. There is no framework, client-side state layer, build pipeline, or application abstraction because none of those solve a real requirement here.
+
+That is the main architectural decision of the project: keep the implementation proportional to the product.
 
 ## Author
 
