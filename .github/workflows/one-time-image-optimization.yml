@@ -1,4 +1,4 @@
-name: One-time CSS formatting
+name: One-time final polish
 
 on:
   push:
@@ -9,8 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  format:
-    if: "!contains(github.event.head_commit.message, '[skip css format]')"
+  finalize:
+    if: "!contains(github.event.head_commit.message, '[skip final polish]')"
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -18,22 +18,61 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: final-performance-polish
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
 
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
 
+      - name: Restore original photo from main
+        run: |
+          git fetch origin main
+          git show origin/main:img3-3.jpg > img3-3.jpg
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+
+      - name: Optimize photo once and strip metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          path = Path("img3-3.jpg")
+          before = path.stat().st_size
+
+          with Image.open(path) as source:
+              image = source.convert("RGB")
+              max_side = 2048
+              scale = min(1.0, max_side / max(image.size))
+              size = (round(image.width * scale), round(image.height * scale))
+              if size != image.size:
+                  image = image.resize(size, Image.Resampling.LANCZOS)
+              image.save(path, "JPEG", quality=88, optimize=True, progressive=True)
+
+          with Image.open(path) as result:
+              assert max(result.size) == 2048
+              assert len(result.getexif()) == 0
+
+          after = path.stat().st_size
+          print(f"Optimized {before:,} -> {after:,} bytes")
+          PY
+
       - name: Format CSS
         run: npx --yes prettier@3.6.2 --write styles.css
 
-      - name: Commit formatted CSS
+      - name: Commit canonical final assets
         run: |
-          if git diff --quiet -- styles.css; then
-            echo "CSS is already formatted."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add styles.css
-          git commit -m "Format CSS for readability [skip css format]"
+          git add img3-3.jpg styles.css
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git commit -m "Finalize image optimization and CSS formatting [skip final polish]"
           git push origin HEAD:final-performance-polish
