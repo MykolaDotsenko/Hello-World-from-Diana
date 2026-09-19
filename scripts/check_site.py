@@ -42,6 +42,7 @@ class SiteParser(HTMLParser):
             self.h1_count += 1
         elif tag == "img":
             self.images.append(attributes)
+            self.links.append((tag, attributes))
         elif tag in {"a", "link", "script"}:
             self.links.append((tag, attributes))
         elif tag == "meta":
