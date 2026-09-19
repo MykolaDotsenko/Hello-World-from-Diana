@@ -1,0 +1,72 @@
+name: One-time image optimization
+
+on:
+  push:
+    branches:
+      - final-performance-polish
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    if: "!contains(github.event.head_commit.message, '[skip image optimize]')"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: final-performance-polish
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+
+      - name: Optimize full-size family photo
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          path = Path("img3-3.jpg")
+          before = path.stat().st_size
+
+          with Image.open(path) as source:
+              image = source.convert("RGB")
+              max_side = 2048
+              scale = min(1.0, max_side / max(image.size))
+              target_size = (
+                  round(image.width * scale),
+                  round(image.height * scale),
+              )
+              if target_size != image.size:
+                  image = image.resize(target_size, Image.Resampling.LANCZOS)
+
+              image.save(
+                  path,
+                  "JPEG",
+                  quality=88,
+                  optimize=True,
+                  progressive=True,
+              )
+
+          after = path.stat().st_size
+          print(f"Optimized {before:,} -> {after:,} bytes")
+          print("EXIF/GPS metadata omitted from output.")
+          PY
+
+      - name: Commit optimized image
+        run: |
+          if git diff --quiet -- img3-3.jpg; then
+            echo "Image is already optimized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add img3-3.jpg
+          git commit -m "Optimize family photo and strip metadata [skip image optimize]"
+          git push origin HEAD:final-performance-polish
