@@ -1,4 +1,4 @@
-name: One-time image optimization
+name: One-time CSS formatting
 
 on:
   push:
@@ -9,8 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  optimize:
-    if: "!contains(github.event.head_commit.message, '[skip image optimize]')"
+  format:
+    if: "!contains(github.event.head_commit.message, '[skip css format]')"
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -19,54 +19,21 @@ jobs:
         with:
           ref: final-performance-polish
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.13"
+          node-version: "24"
 
-      - name: Install Pillow
-        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+      - name: Format CSS
+        run: npx --yes prettier@3.6.2 --write styles.css
 
-      - name: Optimize full-size family photo
+      - name: Commit formatted CSS
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          from PIL import Image
-
-          path = Path("img3-3.jpg")
-          before = path.stat().st_size
-
-          with Image.open(path) as source:
-              image = source.convert("RGB")
-              max_side = 2048
-              scale = min(1.0, max_side / max(image.size))
-              target_size = (
-                  round(image.width * scale),
-                  round(image.height * scale),
-              )
-              if target_size != image.size:
-                  image = image.resize(target_size, Image.Resampling.LANCZOS)
-
-              image.save(
-                  path,
-                  "JPEG",
-                  quality=88,
-                  optimize=True,
-                  progressive=True,
-              )
-
-          after = path.stat().st_size
-          print(f"Optimized {before:,} -> {after:,} bytes")
-          print("EXIF/GPS metadata omitted from output.")
-          PY
-
-      - name: Commit optimized image
-        run: |
-          if git diff --quiet -- img3-3.jpg; then
-            echo "Image is already optimized."
+          if git diff --quiet -- styles.css; then
+            echo "CSS is already formatted."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add img3-3.jpg
-          git commit -m "Optimize family photo and strip metadata [skip image optimize]"
+          git add styles.css
+          git commit -m "Format CSS for readability [skip css format]"
           git push origin HEAD:final-performance-polish
