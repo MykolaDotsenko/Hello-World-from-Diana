@@ -26,18 +26,17 @@ The project intentionally does **not** use React, Vue, a bundler, or a custom Ja
 
 The public-facing experience is intentionally family-first rather than technology-first.
 
-The visual direction is a **small digital family album**, designed to feel warm, gentle, nostalgic, and emotionally familiar rather than like a conventional portfolio landing page.
+The visual direction is a **soft modern family album**, designed to feel light, gentle, intimate, and emotionally familiar rather than retro or like a conventional portfolio landing page.
 
 The site uses:
 
-- warm ivory, cream, peach, and dusty-rose tones
-- soft paper-like surfaces instead of hard white cards
-- editorial serif typography for a personal, timeless feeling
-- subtle photo-album and instant-photo framing
-- restrained paper-tape details around photographs
-- small rotations that make the gallery feel collected rather than mechanically aligned
+- bright ivory backgrounds with soft blush and peach accents
+- airy translucent surfaces instead of heavy cards
+- editorial serif typography paired with clean modern system UI text
+- rounded contemporary photo framing with only a light hint of album nostalgia
+- generous whitespace and softer visual hierarchy
 - affectionate microcopy focused on home, togetherness, and memory
-- soft shadows and low-contrast borders
+- restrained shadows, low-contrast borders, and subtle blur
 - subtle motion only where it improves affordance
 - no external font dependency and no unnecessary visual library
 
