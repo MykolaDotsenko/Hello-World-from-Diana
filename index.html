@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Hello, World from Diana — a small, responsive family website built with semantic HTML, modern CSS, and Bootstrap."
+      content="Hello, World from Diana — a small family website made with love and built with semantic HTML, modern CSS, and Bootstrap."
     >
     <meta name="theme-color" content="#f7f3ee">
+    <meta name="color-scheme" content="light">
     <title>Hello, World from Diana</title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -29,7 +30,11 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-md" aria-label="Primary navigation">
         <div class="container">
-          <a class="navbar-brand d-flex align-items-center gap-2" href="index.html" aria-label="Hello, World from Diana — home">
+          <a
+            class="navbar-brand d-flex align-items-center gap-2"
+            href="index.html"
+            aria-label="Hello, World from Diana — home"
+          >
             <img class="brand-mark" src="logo.png" alt="" width="72" height="48">
             <span>Hello, World</span>
           </a>
@@ -61,32 +66,39 @@
     </header>
 
     <main id="main-content">
-      <section class="hero-section">
+      <section class="hero-section" aria-labelledby="hero-title">
         <div class="container">
           <div class="hero-card">
-            <div class="row align-items-center g-5">
+            <div class="hero-decoration hero-decoration-one" aria-hidden="true"></div>
+            <div class="hero-decoration hero-decoration-two" aria-hidden="true"></div>
+
+            <div class="row align-items-center g-5 position-relative">
               <div class="col-lg-6 order-2 order-lg-1">
-                <p class="eyebrow mb-3">A tiny family website</p>
-                <h1 class="display-4 fw-semibold mb-4">Hello, world — I’m Diana.</h1>
+                <p class="eyebrow mb-3">A little hello from our family</p>
+                <h1 id="hero-title" class="display-4 fw-semibold mb-4">
+                  Hello, world — I’m Diana.
+                </h1>
                 <p class="lead hero-copy mb-4">
-                  Welcome to a small corner of the web made with love. This site introduces
-                  the people closest to me and preserves a simple family memory online.
+                  Welcome to our tiny corner of the web — a simple place for a few
+                  favorite photos, the people I love most, and one small family memory
+                  worth keeping.
                 </p>
                 <div class="d-flex flex-column flex-sm-row gap-3">
                   <a class="btn btn-brand btn-lg" href="places.html">Meet my family</a>
                   <a
-                    class="btn btn-outline-secondary btn-lg"
+                    class="btn btn-soft btn-lg"
                     href="img3-3.jpg"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    View family photo
+                    See our family photo
                   </a>
                 </div>
               </div>
 
               <div class="col-lg-6 order-1 order-lg-2">
                 <div class="hero-photo-wrap mx-auto">
+                  <span class="photo-sticker" aria-hidden="true">with love</span>
                   <img
                     class="hero-photo"
                     src="img.jpg"
@@ -103,44 +115,54 @@
         </div>
       </section>
 
-      <section class="section-space" aria-labelledby="site-highlights-title">
+      <section class="story-section section-space" aria-labelledby="story-title">
         <div class="container">
-          <div class="section-heading text-center mx-auto">
-            <p class="eyebrow mb-2">Simple by design</p>
-            <h2 id="site-highlights-title" class="h1 mb-3">Small site, thoughtful details</h2>
+          <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+              <p class="eyebrow mb-2">Our little story</p>
+              <h2 id="story-title" class="display-6 fw-semibold mb-3">
+                Small moments become the memories we keep.
+              </h2>
+            </div>
+            <div class="col-lg-7">
+              <div class="story-note">
+                <p class="story-copy mb-3">
+                  This website began as a very small learning project in 2023. Instead
+                  of replacing it with something bigger, it now keeps the same simple
+                  idea: a warm family page, thoughtfully cared for.
+                </p>
+                <p class="mb-0 story-signature">Made for Diana and her family.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="memory-section pb-5" aria-labelledby="memory-title">
+        <div class="container">
+          <div class="section-heading text-center mx-auto mb-5">
+            <p class="eyebrow mb-2">A few favorite frames</p>
+            <h2 id="memory-title" class="display-6 fw-semibold mb-3">The people behind my world</h2>
             <p class="text-body-secondary mb-0">
-              The project intentionally stays lightweight while still following modern web fundamentals.
+              A tiny preview from our family gallery.
             </p>
           </div>
 
-          <div class="row g-4 mt-4">
-            <div class="col-md-4">
-              <article class="feature-card h-100">
-                <span class="feature-number" aria-hidden="true">01</span>
-                <h3 class="h5">Responsive</h3>
-                <p class="mb-0 text-body-secondary">
-                  Bootstrap’s grid and focused custom CSS keep the experience comfortable from phones to desktops.
-                </p>
-              </article>
-            </div>
-            <div class="col-md-4">
-              <article class="feature-card h-100">
-                <span class="feature-number" aria-hidden="true">02</span>
-                <h3 class="h5">Accessible</h3>
-                <p class="mb-0 text-body-secondary">
-                  Semantic landmarks, keyboard focus states, a skip link, meaningful labels, and reduced-motion support are built in.
-                </p>
-              </article>
-            </div>
-            <div class="col-md-4">
-              <article class="feature-card h-100">
-                <span class="feature-number" aria-hidden="true">03</span>
-                <h3 class="h5">Lightweight</h3>
-                <p class="mb-0 text-body-secondary">
-                  No application framework or build pipeline is needed for a two-page static family site.
-                </p>
-              </article>
-            </div>
+          <div class="memory-grid">
+            <a class="memory-card memory-card-tall" href="places.html" aria-label="Open the family gallery">
+              <img src="img1.jpg" alt="Iryna, Diana's mother" loading="lazy" decoding="async">
+              <span class="memory-caption">Mom</span>
+            </a>
+
+            <a class="memory-card" href="places.html" aria-label="Open the family gallery">
+              <img src="img3.jpg" alt="Diana together with her parents" loading="lazy" decoding="async">
+              <span class="memory-caption">Together</span>
+            </a>
+
+            <a class="memory-card" href="places.html" aria-label="Open the family gallery">
+              <img src="img2.jpg" alt="Mykola, Diana's father" loading="lazy" decoding="async">
+              <span class="memory-caption">Dad</span>
+            </a>
           </div>
         </div>
       </section>
@@ -149,10 +171,10 @@
         <div class="container">
           <div class="family-preview">
             <div>
-              <p class="eyebrow mb-2">The next page</p>
-              <h2 id="family-preview-title" class="h2 mb-2">The people behind my world</h2>
+              <p class="eyebrow mb-2">Family first</p>
+              <h2 id="family-preview-title" class="h2 mb-2">There is more to see.</h2>
               <p class="mb-0 text-body-secondary">
-                Meet my parents and see one of our favorite family photos.
+                Open the family page for the full-size photos and the little story behind this site.
               </p>
             </div>
             <a class="btn btn-dark btn-lg flex-shrink-0" href="places.html">Open family gallery</a>
@@ -163,8 +185,8 @@
 
     <footer class="site-footer">
       <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
-        <p class="mb-0">Hello, World from Diana</p>
-        <p class="mb-0 footer-meta">HTML · CSS · Bootstrap 5</p>
+        <p class="mb-0">Hello, World from Diana <span aria-hidden="true">♡</span></p>
+        <p class="mb-0 footer-meta">A small family website, made with care.</p>
       </div>
     </footer>
 
