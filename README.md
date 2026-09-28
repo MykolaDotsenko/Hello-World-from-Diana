@@ -1,143 +1,65 @@
 # Hello, World from Diana
 
-A small, warm family microsite built as a deliberately lightweight static web project.
+A small family microsite from 2023, kept public as an early HTML/CSS learning project and refreshed without changing its simple character.
 
-The original 2023 learning project has been refreshed to preserve its personal character while applying modern frontend fundamentals without changing the core stack.
+[**Open the site →**](https://mykoladotsenko.github.io/Hello-World-from-Diana/)
 
-## What it does
+## What it is
 
-- introduces Diana on a simple landing page
-- presents a small family photo gallery
-- links each gallery card to a larger version of the photo
-- works across mobile, tablet, and desktop layouts
-- requires no build step or application runtime
+- a two-page family site;
+- a small photo gallery;
+- responsive layouts for phone/tablet/desktop;
+- static assets with no build step or application runtime.
+
+The live experience is intentionally family-first rather than a technical showcase.
 
 ## Stack
 
-- semantic HTML5
+- semantic HTML
 - modern CSS
-- Bootstrap 5.3.8
-- Bootstrap's bundled JavaScript for responsive navigation
-- GitHub Pages-ready static assets
+- Bootstrap 5
+- Bootstrap navigation JavaScript
+- GitHub Pages
 
-The project intentionally does **not** use React, Vue, a bundler, or a custom JavaScript application layer. For a two-page static site, those tools would add complexity without improving the product.
+There is no React/Vue layer or custom application state because a two-page site does not need one.
 
-## Product and design approach
+## Refresh work
 
-The public-facing experience is intentionally family-first rather than technology-first.
+The original project was updated with:
 
-The visual direction is a **soft modern family album**, designed to feel light, gentle, intimate, and emotionally familiar rather than retro or like a conventional portfolio landing page.
+- clearer semantic landmarks/headings;
+- skip navigation and visible focus;
+- meaningful image alt text;
+- reduced-motion support;
+- responsive WebP `srcset` variants;
+- explicit image dimensions and lazy loading;
+- shared stylesheet;
+- page/social metadata;
+- safe new-tab links.
 
-The site uses:
+Large family images were also resized/compressed and generated without EXIF/GPS metadata.
 
-- bright ivory backgrounds with soft blush and peach accents
-- airy translucent surfaces instead of heavy cards
-- editorial serif typography paired with clean modern system UI text
-- rounded contemporary photo framing with only a light hint of album nostalgia
-- generous whitespace and softer visual hierarchy
-- affectionate microcopy focused on home, togetherness, and memory
-- restrained shadows, low-contrast borders, and subtle blur
-- subtle motion only where it improves affordance
-- no external font dependency and no unnecessary visual library
+## Quality check
 
-Technical proof belongs in the repository documentation; the website itself is designed to feel like something a family would enjoy revisiting years later.
+```bash
+python scripts/check_site.py
+```
 
-## Engineering improvements
-
-The refresh focuses on high-value fundamentals:
-
-- semantic page landmarks and heading structure
-- keyboard-accessible skip navigation
-- visible focus states
-- meaningful image alternative text
-- unique accessible names for repeated gallery links
-- explicit new-tab announcements for photo links
-- responsive image presentation with WebP `srcset` candidates
-- explicit `sizes` hints so browsers can choose an appropriate image before layout
-- intrinsic image dimensions to reduce layout shift
-- lazy loading for non-critical images
-- `prefers-reduced-motion` support
-- project-relative asset and navigation URLs that work on GitHub Pages
-- Bootstrap CDN Subresource Integrity (SRI)
-- shared styling in a dedicated stylesheet instead of duplicated inline CSS
-- page descriptions plus Open Graph and Twitter summary metadata
-- safer new-tab image links with `rel="noopener noreferrer"`
-- an intentionally small dependency surface
-
-## Quality checks
-
-The repository includes a small zero-dependency validation script and a GitHub Actions workflow.
-
-The checker verifies:
-
-- expected local files and linked assets exist
-- every page has one `<main>` and one `<h1>`
-- HTML IDs are unique within each page
-- images include `alt` attributes
-- links opened in a new tab use both `noopener` and `noreferrer`
-- local fragment links point to existing IDs
-- each page includes viewport and description metadata
-- the web manifest is valid JSON and references existing icon files
-
-Run it locally with:
-
-    python scripts/check_site.py
-
-## Project structure
-
-    .
-    ├── .github/
-    │   └── workflows/
-    │       └── quality.yml
-    ├── scripts/
-    │   └── check_site.py
-    ├── index.html
-    ├── places.html
-    ├── styles.css
-    ├── img.jpg
-    ├── img1.jpg
-    ├── img1-600.webp
-    ├── img1-1200.webp
-    ├── img1-1.jpg
-    ├── img2.jpg
-    ├── img2-600.webp
-    ├── img2-1200.webp
-    ├── img2-2.jpg
-    ├── img3.jpg
-    ├── img3-600.webp
-    ├── img3-1200.webp
-    ├── img3-3.jpg
-    ├── logo.png
-    ├── site.webmanifest
-    └── favicon assets
+The checker validates local links/assets, document landmarks, unique IDs, image alt text, safe new-tab links, metadata and the web manifest.
 
 ## Run locally
 
-No installation is required.
+No installation is required:
 
-Open `index.html` directly in a browser, or serve the folder with any static HTTP server.
+```bash
+python -m http.server 8000
+```
 
-For example:
+Open `http://localhost:8000/`.
 
-    python -m http.server 8000
+## History
 
-Then visit `http://localhost:8000`.
-
-## Architecture
-
-This is intentionally a static two-page website.
-
-Bootstrap provides proven responsive layout primitives and the collapsible navigation. Custom CSS owns the visual language and responsive presentation. There is no framework, client-side state layer, build pipeline, or application abstraction because none of those solve a real requirement here.
-
-That is the main architectural decision of the project: keep the implementation proportional to the product.
-
-## Image strategy
-
-The gallery separates lightweight fallbacks from larger photos opened on demand, so full-size originals are not loaded as part of the initial page view.
-
-For the three family-gallery images, the site provides 600 px and 1200 px WebP candidates generated from the larger source photos. Each `<picture>` element keeps the existing JPEG as a fallback while modern browsers use `srcset` and `sizes` to choose a sharper asset for the actual viewport and device pixel ratio. This gives high-DPI mobile screens substantially better image detail without forcing every device to download the largest file.
-
-The 1200 px WebP variants are roughly 80–116 KB each, and the 600 px variants are roughly 30–44 KB. The largest full-size family photo was also resized from 4032×3024 to 2048×1536 and recompressed as a high-quality progressive JPEG, reducing it from about 7.24 MB to about 483 KB. Generated and optimized files are written without EXIF metadata, including GPS data.
+I keep this repository public because it is part of the progression of my frontend work. The refresh improves fundamentals without pretending the original small family project was something more complex.
 
 ## Author
 
